@@ -52,7 +52,6 @@ class Statsd
       
       sock = UDPSocket.new
       data.each do |d|
-        puts d
         sock.send(d, 0, host, port)
       end
       true
