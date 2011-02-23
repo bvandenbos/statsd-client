@@ -50,9 +50,14 @@ class Statsd
       
       raise "host and port must be set" unless host && port
       
-      sock = UDPSocket.new
-      data.each do |d|
-        sock.send(d, 0, host, port)
+      begin
+        sock = UDPSocket.new
+        data.each do |d|
+          sock.send(d, 0, host, port)
+        end
+      rescue # silent but deadly
+      ensure
+        sock.close
       end
       true
     end
