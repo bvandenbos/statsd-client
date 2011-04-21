@@ -93,11 +93,10 @@ class StatsdTest < Test::Unit::TestCase
     
     should "resolve dns" do
       Statsd.host = 'localhost'
-      assert_equal '127.0.0.1', Statsd.host_ip_addr
+      assert loopback?(Statsd.host_ip_addr)
     end
     
     should "be cleared when host is set" do
-      assert_equal '127.0.0.1', Statsd.host_ip_addr
       Statsd.host = 'statsd-01'
       assert_nil Statsd.instance_variable_get(:@host_ip_addr)
     end
@@ -116,6 +115,10 @@ class StatsdTest < Test::Unit::TestCase
   
   def expect_nothing
     UDPSocket.any_instance.expects(:send).never
+  end
+  
+  def loopback?(ip)
+    ['::1', '127.0.0.1'].include?(ip)
   end
   
 end
