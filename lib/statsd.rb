@@ -15,6 +15,11 @@ class Statsd
       end
     end
     
+    def host=(h)
+      @host_ip_addr = nil
+      @host = h
+    end
+    
     # +stat+ to log timing for
     # +time+ is the time to log in ms
     def timing(stat, time, sample_rate = 1)
