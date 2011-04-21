@@ -2,11 +2,18 @@ require 'socket'
 
 class Statsd
   
-  Version = '0.0.3'
+  Version = '0.0.4'
   
   class << self
     
     attr_accessor :host, :port
+    
+    def host_ip_addr
+      @host_ip_addr ||= begin
+        a = Socket.getaddrinfo(host, nil)
+        a.first[2] if a.first
+      end
+    end
     
     # +stat+ to log timing for
     # +time+ is the time to log in ms
@@ -53,7 +60,7 @@ class Statsd
       begin
         sock = UDPSocket.new
         data.each do |d|
-          sock.send(d, 0, host, port)
+          sock.send(d, 0, host_ip_addr, port)
         end
       rescue # silent but deadly
       ensure
@@ -61,9 +68,7 @@ class Statsd
       end
       true
     end
-      
     
   end
-  
   
 end
