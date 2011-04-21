@@ -1,4 +1,5 @@
 require 'socket'
+require 'resolv'
 
 class Statsd
   
@@ -9,10 +10,7 @@ class Statsd
     attr_accessor :host, :port
     
     def host_ip_addr
-      @host_ip_addr ||= begin
-        a = Socket.getaddrinfo(host, nil)
-        a.first[2] if a.first
-      end
+      @host_ip_addr ||= Resolv.getaddress(host)
     end
     
     def host=(h)
