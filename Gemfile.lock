@@ -7,6 +7,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     mocha (0.9.12)
+    rake (0.9.2)
     shoulda-context (1.0.0.beta1)
 
 PLATFORMS
@@ -14,5 +15,6 @@ PLATFORMS
 
 DEPENDENCIES
   mocha
+  rake
   shoulda-context
   statsd-client!
