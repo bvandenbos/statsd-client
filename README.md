@@ -23,4 +23,8 @@ Example
     Statsd.timing('some_job_time', 20) # reporting job that took 20ms
     Statsd.timing('some_job_time', 20, 0.05) # reporting job that took 20ms with sampling (5% sampling)
     
+    # passing a block to `timing` will capture the time it takes to execute   
+    Statsd.time('some_job_time') do
+      # do some job
+    end
     
