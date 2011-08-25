@@ -117,12 +117,7 @@ class StatsdTest < Test::Unit::TestCase
   end
   
   def expected_send(buf)
-    case buf
-    when Regexp
-      buf_re = buf
-    else
-      buf_re = Regexp.new(buf)
-    end
+    buf_re = Regexp.new(buf)
     UDPSocket.any_instance.expects(:send).with(regexp_matches(buf_re), 0, Statsd.host_ip_addr, Statsd.port).once
   end
   
