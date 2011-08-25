@@ -20,8 +20,13 @@ class Statsd
     
     # +stat+ to log timing for
     # +time+ is the time to log in ms
-    def timing(stat, time, sample_rate = 1)
-      send_stats "#{stat}:#{time}|ms", sample_rate
+    def timing(stat, time = nil, sample_rate = 1)
+      if block_given?
+        start_time = Time.now.to_f
+        yield
+        time = ((Time.now.to_f - start_time) * 1000).floor
+      end
+      send_stats("#{stat}:#{time}|ms", sample_rate)
     end
     
     # +stats+ can be a string or an array of strings

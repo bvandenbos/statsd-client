@@ -26,6 +26,13 @@ class StatsdTest < Test::Unit::TestCase
       expect_nothing
       Statsd.timing('test.stat', 23, 0.1)      
     end
+
+    should "work with a block" do
+      expected_send(/^test.stat:2[234]\|ms$/)
+      Statsd.timing('test.stat') do
+        sleep 0.023
+      end
+    end
     
   end
   
@@ -110,7 +117,13 @@ class StatsdTest < Test::Unit::TestCase
   end
   
   def expected_send(buf)
-    UDPSocket.any_instance.expects(:send).with(buf, 0, Statsd.host_ip_addr, Statsd.port).once
+    case buf
+    when Regexp
+      buf_re = buf
+    else
+      buf_re = Regexp.new(buf)
+    end
+    UDPSocket.any_instance.expects(:send).with(regexp_matches(buf_re), 0, Statsd.host_ip_addr, Statsd.port).once
   end
   
   def expect_nothing
