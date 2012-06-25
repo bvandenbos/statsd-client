@@ -59,7 +59,7 @@ class Statsd
       if sample_rate < 1
         data.each do |d|
           if rand <= sample_rate
-            sampled_data << "#{d}@#{sample_rate}"
+            sampled_data << "#{d}|@#{sample_rate}"
           end
         end
         data = sampled_data
