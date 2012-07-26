@@ -17,7 +17,7 @@ class StatsdTest < Test::Unit::TestCase
 
     should "log when sampled" do
       fake_rand(0.09)
-      expected_send('test.stat:23|ms@0.1')
+      expected_send('test.stat:23|ms|@0.1')
       Statsd.timing('test.stat', 23, 0.1)
     end
 
@@ -45,7 +45,7 @@ class StatsdTest < Test::Unit::TestCase
 
     should "log when sampled" do
       fake_rand(0.09)
-      expected_send('test.stat:1|c@0.1')
+      expected_send('test.stat:1|c|@0.1')
       Statsd.increment('test.stat', 0.1)
     end
 
@@ -66,7 +66,7 @@ class StatsdTest < Test::Unit::TestCase
 
     should "log when sampled" do
       fake_rand(0.09)
-      expected_send('test.stat:-1|c@0.1')
+      expected_send('test.stat:-1|c|@0.1')
       Statsd.decrement('test.stat', 0.1)
     end
 
@@ -87,7 +87,7 @@ class StatsdTest < Test::Unit::TestCase
 
     should "log when sampled" do
       fake_rand(0.09)
-      expected_send('test.stat:1337|g@0.1')
+      expected_send('test.stat:1337|g|@0.1')
       Statsd.gauge('test.stat', 1337, 0.1)
     end
 
